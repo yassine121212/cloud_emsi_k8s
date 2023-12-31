@@ -1,0 +1,5 @@
+# Chart.yaml
+apiVersion: v2
+name: emsi_chart_ubuntu
+description: A Helm chart for deploying Ubuntu with dynamic username and password
+version: 0.1.0

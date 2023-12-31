@@ -1,0 +1,8 @@
+# values.yaml
+image:
+  repository: "0687007388/emsi_ubuntu"
+  tag: "latest"
+
+ssh:
+  username: "default-username"
+  password: "default-password"
