@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .selected {
+            border: 2px solid #ed7b55;
+            border-radius: 8px;/* Change this to your desired styling for selected items */
+        }
+    </style>
+</head>
+<body>
+<div class="grid grid-cols-2 gap-5 " id="instancesGrid">
+    {% with family="t1" vcpu=1 memory=1 %}
+        <div class="instance-item" data-family="{{ family }}" data-vcpu="{{ vcpu }}" data-memory="{{ memory }}">
+            {% include 'Ubuntu/InstancesTypes/index.html' %}
+        </div>
+    {% endwith %}
+    {% with family="t2" vcpu=2 memory=8 %}
+        <div class="instance-item" data-family="{{ family }}" data-vcpu="{{ vcpu }}" data-memory="{{ memory }}">
+            {% include 'Ubuntu/InstancesTypes/index.html' %}
+        </div>
+    {% endwith %}
+    {% with family="c1" vcpu=8 memory=12 %}
+        <div class="instance-item" data-family="{{ family }}" data-vcpu="{{ vcpu }}" data-memory="{{ memory }}">
+            {% include 'Ubuntu/InstancesTypes/index.html' %}
+        </div>
+    {% endwith %}
+    {% with family="x1" vcpu=16 memory=32 %}
+        <div class="instance-item" data-family="{{ family }}" data-vcpu="{{ vcpu }}" data-memory="{{ memory }}">
+            {% include 'Ubuntu/InstancesTypes/index.html' %}
+        </div>
+    {% endwith %}
+</div>
+
+<script>
+    // Add click event listeners to each instance item
+    document.querySelectorAll('.instance-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            // Remove 'selected' class from all items
+            document.querySelectorAll('.instance-item').forEach(function(item) {
+                item.classList.remove('selected');
+            });
+
+            // Add 'selected' class to the clicked item
+            item.classList.add('selected');
+
+            // Get data attributes from the clicked item
+            var family = item.getAttribute('data-family');
+            var vcpu = item.getAttribute('data-vcpu');
+            var memory = item.getAttribute('data-memory');
+
+            // Create a JSON object
+            var selectedObject = {
+                family: family,
+                vcpu: vcpu,
+                memory: memory
+            };
+
+            // Convert the JSON object to a string and store in local storage
+            localStorage.setItem('selectedInstance', JSON.stringify(selectedObject));
+        });
+    });
+</script>
+</body>
+</html>

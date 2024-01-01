@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div>
+ <form id="clientForm" action="{% url 'generate_client_values' %}" method="post">
+        {% csrf_token %}
+     <div>
+            <label for="username" class="ms-2 ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                your username :
+            </label>
+            <input type="text"
+                   id="username"
+                   name="client_username"
+                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="----------" required/>
+        </div>
+        <div>
+            <label for="storage-size-input" class="ms-2 ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
+                your password :
+            </label>
+            <input type="password"
+                   id="password"
+                   name="client_password"
+                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="---------" required/>
+        </div>
+        <div class="mt-4 flex justify-center">
+            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md">
+                Create
+            </button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>

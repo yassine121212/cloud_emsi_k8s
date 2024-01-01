@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ubuntu</title>
+    <style>
+        /* Add your styles here */
+        .hidden {
+            display: none;
+        }
+
+        .active-step {
+            color: #0F766E; /* Change this to your desired color */
+        }
+    </style>
+</head>
+<body class="bg-[#EEF5FF]">
+<div>
+    <div id="ubuntu_section" onclick="toggleCustomize()" class="">
+        <img src="{% static 'ubun.png' %}" alt="Logo">
+    </div>
+    <div class="hidden  fixed top-0 right-0 left-0 justify-center items-center mx-auto w-1/2 mt-8 bg-white px-4 px-2  rounded-lg cursor-default"
+         id="customize">
+
+        <ol class="flex items-center w-full  space-x-2 text-sm font-medium text-center text-gray-500 bg-white   rounded-lg shadow-sm dark:text-gray-400 sm:text-base dark:bg-gray-800   sm:p-4 sm:space-x-4 rtl:space-x-reverse">
+            <li class="flex cursor-pointer items-center" id="step1" onclick="showStep('step1')">
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-blue-600 rounded-full shrink-0 dark:border-blue-500">
+                    1
+                </span>
+                Instance type <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                </svg>
+            </li>
+            <li class="flex cursor-pointer items-center" id="step2" onclick="showStep('step2')">
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
+                    2
+                </span>
+                Configure storage <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                </svg>
+            </li>
+            <li class="flex cursor-pointer items-center" id="step3" onclick="showStep('step3')">
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
+                    3
+                </span>
+                Network settings <span class="hidden sm:inline-flex sm:ms-2">Info</span>
+                <svg class="w-3 h-3 ms-2 sm:ms-4 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                     fill="none" viewBox="0 0 12 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="m7 9 4-4-4-4M1 9l4-4-4-4"/>
+                </svg>
+            </li>
+            <li class="flex cursor-pointer items-center" id="step4" onclick="showStep('step4')">
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border border-gray-500 rounded-full shrink-0 dark:border-gray-400">
+                    4
+                </span>
+                Configure default user
+            </li>
+        </ol>
+
+        <div id="step1Content" class="hidden p-6 cursor-default">
+            {% include 'Ubuntu/Steps/se_properties.html' %}
+        </div>
+        <div id="step2Content" class="hidden p-6">
+            {% include 'Ubuntu/Steps/configure_storage.html' %}
+        </div>
+        <div id="step3Content" class="hidden p-6">
+            {% include 'Ubuntu/Steps/configure_network.html' %}
+        </div>
+        <div id="step4Content" class="hidden p-6">
+            {% include 'Ubuntu/Steps/configure_default_user.html' %}
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function toggleCustomize() {
+        var customizeDiv = document.getElementById('customize');
+        customizeDiv.classList.toggle('hidden');
+
+        // Show the content of the first step by default
+        var step1Content = document.getElementById('step1Content');
+        step1Content.classList.remove('hidden');
+
+        // Highlight the active step
+        var steps = document.querySelectorAll('#customize ol li');
+        steps.forEach(function (step) {
+            step.classList.remove('active-step');
+        });
+
+        var step1 = document.getElementById('step1');
+        step1.classList.add('active-step');
+    }
+
+    // Function to show a specific step
+    function showStep(stepId) {
+        // Hide all step content
+        var stepContents = document.querySelectorAll('#customize > div');
+        stepContents.forEach(function (content) {
+            content.classList.add('hidden');
+        });
+
+        // Show the selected step content
+        var selectedStepContent = document.getElementById(stepId + 'Content');
+        selectedStepContent.classList.remove('hidden');
+
+        // Highlight the active step
+        var steps = document.querySelectorAll('#customize ol li');
+        steps.forEach(function (step) {
+            step.classList.remove('active-step');
+        });
+
+        var selectedStep = document.getElementById(stepId);
+        selectedStep.classList.add('active-step');
+    }
+</script>
+
+</body>
+</html>

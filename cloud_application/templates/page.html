@@ -1,0 +1,37 @@
+<!-- page.html -->
+
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block title %}My Page - {{ block.super }}{% endblock %}
+
+{% block content %}
+
+
+
+    <div class="flex flex-col items-center justify-around h-screen">
+
+        <div>
+            <div><span class="text-[#4F6F52] text-2xl font-mono">Emsi</span> <span
+                    class="text-[#4F6F52] font-mono  text-4xl">Cloud</span>
+                <img src="{% static 'logo.png' %}" class="mt-4 rounded-full w-5" alt="Logo">
+
+            </div>
+
+
+        </div>
+        <div class="flex gap-4 ">
+            <div class=" w-40 h-auto   border-[#f48d6b] hover:border-4 border-opacity-75 hover:cursor-pointer rounded-2xl">
+                {% include 'Ubuntu/index.html' %}
+            </div>
+            <div class=" w-40 h-auto   border-[#58b2e2] hover:border-4 border-opacity-75 hover:cursor-pointer rounded-2xl">
+                {% include 'Nextcloud/index.html' %}
+            </div>
+        </div>
+
+        <div class="font-mono text-teal-700 font-bold">
+            <span class="italic font-thin ">Make it</span> 💚 by -- EL ouazzani Yassine . Messi Maha . Sahlouf Aya
+        </div>
+    </div>
+{% endblock %}

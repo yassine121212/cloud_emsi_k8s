@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div  class="flex gap-8 font-mono items-center">
+    <div class="flex items-center mb-4">
+        <input id="default-checkbox" type="checkbox" value="0.0.0.0"
+               class="w-4 h-4 text-orange-600 bg-gray-100   rounded  dark:focus:ring-orange-600   ">
+        <label for="default-checkbox" class="ms-2 ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">Allow SSH
+            Traffic from </label>
+    </div>
+    <div class="flex flex-col items-center text-left items-center mb-4">
+        <span class="!font-mono text-sm">Anywhere</span>
+         <input type="text"
+               id="ip_address_allow"
+               class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               placeholder="0.0.0.0/0" required>
+    </div>
+
+</div>
+
+<script>
+    var sshCheckbox = document.getElementById("default-checkbox");
+    var ipAddressInput = document.getElementById("ip_address_allow");
+
+    // Load data from localStorage on page load
+    var storedData = localStorage.getItem("sshData");
+    if (storedData) {
+        var data = JSON.parse(storedData);
+        sshCheckbox.checked = data.allowSSH;
+        ipAddressInput.value = data.ipAddress;
+    }
+
+    // Add event listener for checkbox change
+    sshCheckbox.addEventListener("change", function () {
+        // Save data to localStorage
+        saveDataToLocalStorage();
+    });
+
+    // Add event listener for input change
+    ipAddressInput.addEventListener("input", function () {
+        // Save data to localStorage
+        saveDataToLocalStorage();
+    });
+
+    function saveDataToLocalStorage() {
+        var data = {
+            allowSSH: sshCheckbox.checked,
+            ipAddress: ipAddressInput.value
+        };
+
+        // Save data to localStorage
+        localStorage.setItem("sshData", JSON.stringify(data));
+    }
+</script>
+</body>
+</html>

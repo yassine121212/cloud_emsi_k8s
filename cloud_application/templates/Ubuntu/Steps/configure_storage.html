@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div class="flex gap-2 justify-center items-center font-mono">
+    <span>
+        1 X
+    </span>
+    <div>
+         <input type="text"
+               id="storage-size-input"
+               class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+               placeholder="8" required>
+    </div>
+    <span>GiB</span>
+    {% include 'Ubuntu/StorageTypes/index.html' %}
+
+    <div>Root volume</div>
+</div>
+
+<script>
+    var storageSizeInput = document.getElementById("storage-size-input");
+
+    // Add an event listener for changes in the input field
+    storageSizeInput.addEventListener("input", function () {
+        var sizeValue = storageSizeInput.value;
+
+        // Store the size value in local storage
+        localStorage.setItem("storageSize", sizeValue);
+    });
+</script>
+
+</body>
+</html>

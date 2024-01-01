@@ -1,0 +1,4 @@
+# client_values_template.yaml
+ssh:
+  username: "{{ client_username }}"
+  password: "{{ client_password }}"
