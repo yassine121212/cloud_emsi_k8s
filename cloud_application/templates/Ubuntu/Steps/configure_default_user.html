@@ -2,19 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#clientForm").submit(function (event) {
+                // Display loading message
+                $("#loadingMessage").text("Loading...");
+
+                // Remove the 'hidden' class from the 'customize' div
+                $("#customize").remove("hidden");
+            });
+        });
+    </script>
+    <style>
+        /* Add a CSS class to hide the 'customize' div initially */
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
-<div>
- <form id="clientForm" action="{% url 'generate_client_values' %}" method="post">
+<div class="font-mono">
+    <form id="clientForm" action="{% url 'generate_client_values' %}" method="post">
         {% csrf_token %}
-     <div>
+        <div>
             <label for="username" class="ms-2 ml-4 text-sm font-medium text-gray-900 dark:text-gray-300">
                 your username :
             </label>
             <input type="text"
                    id="username"
                    name="client_username"
-                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                    placeholder="----------" required/>
         </div>
         <div>
@@ -24,17 +42,36 @@
             <input type="password"
                    id="password"
                    name="client_password"
-                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   class="bg-white h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                    placeholder="---------" required/>
         </div>
         <div class="mt-4 flex justify-center">
-            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md">
+            <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded-md" id="send">
                 Create
             </button>
         </div>
     </form>
+
+    <div id="loadingMessage"></div>
+    <div id="errorMessage"></div>
+
+    <!-- The 'customize' div initially hidden with the 'hidden' class -->
+    <div id="customize" class="hidden">
+        <!-- Your 'customize' content goes here -->
+    </div>
 </div>
+<script>
+    document.getElementById('send').addEventListener('click', function () {
+        // Wait for 3 seconds before clearing the input fields
+        setTimeout(function () {
+            // Clear the values of specific input fields by their IDs
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('storage-size-input').value = '';
+            // Clear more input fields if needed
+        }, 500);  // 3000 milliseconds = 3 seconds
+    });
 
-
+</script>
 </body>
 </html>
