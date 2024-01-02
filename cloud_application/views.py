@@ -76,7 +76,7 @@ def generate_client_values(request):
                 break  # Stop the loop once a matching pod is found
         print(selected_pod_name)
         print("bbbbbbbbbbb")
-        success_message = f"Helm chart installed for client: {client_username}, Pod Name: {selected_pod_name}"
+        success_message =  selected_pod_name
         return redirect(
             reverse('ubuntu_instance') + f'?success_message={success_message}')
     except Exception as e:
