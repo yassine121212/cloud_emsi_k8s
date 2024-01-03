@@ -6,16 +6,18 @@
         <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
 
         {% if success_message %}
-            <div id="successMessage" class=" justify-center flex">
+            <div id="successMessage" class=" justify-center flex z-99">
                 <div class="absolute top-0 bg-white mt-5 p-6 rounded-full border-gray-200 font-mono border-4">
-                    {{ success_message }}
+                     {{ ip_address }}
                 </div>
             </div>
             <script>
+                console.log("eee")
+                console.log({{output}})
                 // Hide the success message after 2 seconds
                 setTimeout(function () {
                     document.getElementById('successMessage').style.display = 'none';
-                }, 0);
+                }, 3000);
             </script>
         {% endif %}
         <div class="w-screen h-screen flex overflow-hidden  ">
@@ -30,7 +32,8 @@
                              style="height: 6cm; width: 6cm;opacity: 50%">
                     </div>
                     <div class="font-mono text-sm">
-                         <h2 class="mb-2  font-semibold text-gray-900 dark:text-white">Commands to Update and Upgrade Ubuntu:</h2>
+                        <h2 class="mb-2  font-semibold text-gray-900 dark:text-white">Commands to Update and Upgrade
+                            Ubuntu:</h2>
                         <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                             <li><code>sudo apt update</code> - Update the package lists.</li>
                             <li><code>sudo apt upgrade</code> - Upgrade installed packages to the latest versions.</li>
@@ -47,7 +50,7 @@
             </div>
             <div class="flex-1">
                 <div id="terminal" style="  position:relative;" class="z-90 h-screen  "
-                     data-selected-pod-name="{{ success_message }}">
+                     data-selected-pod-name="{{ ip_address }}">
                     <iframe id="productIframe" class="h-screen flex-1 w-full" frameborder="0"
                             style="border-width: 1px;border-radius: 10px; border-color: #E59E89; box-shadow: 0 0 0 4px #E59E89;"
 
@@ -67,7 +70,7 @@
                 var selectedPodName = document.getElementById("terminal").getAttribute("data-selected-pod-name");
                 console.log("alop");
                 console.log(selectedPodName + "rpp");
-               localStorage.setItem("pod_name",selectedPodName)
+                localStorage.setItem("pod_name", selectedPodName)
                 var iframe = document.getElementById("productIframe");
                 iframe.src = "http://127.0.0.1:5000/?podName=" + selectedPodName;
             }, 0); // 2000 milliseconds (2 seconds) delay
