@@ -1,0 +1,119 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class=" bg-red-500 h-screen w-screen relative">
+        <div class="min-h-screen bg-green-300 ">
+            d
+        </div>
+        <div class="resize-container absolute   bottom-0  ">
+            <div class="resize-drag relative" id="terminal" data-selected-pod-name="{{ success_message }}">
+                <div id="draagg" class="  relative cursor-s-resize">
+                    <div class="h-4   text-center justify-center   top-0 w-full bg-gray-200 rounded-tl-3xl rounded-tr-3xl flex text-gray-400">
+                        <div class="rotate-90 block text-3xl">|</div>
+                     </div>
+
+                </div>
+
+                <div>
+                    <iframe id="productIframe" frameborder="0" class="w-screen h-screen"
+                            style="border-width: 1px;border-radius: 10px; border-color: #E59E89; box-shadow: 0 0 0 4px #E59E89;"
+
+                    ></iframe>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        // Function to update the iframe source with the dynamic pod name
+        // Function to update the iframe source with the dynamic pod name
+        // Function to load the iframe with a delay
+        function delayedLoadProductIframe() {
+            setTimeout(function () {
+                // Get the value of the 'data-selected-pod-name' attribute
+                var selectedPodName = document.getElementById("terminal").getAttribute("data-selected-pod-name");
+                console.log("alop");
+                console.log(selectedPodName + "rpp");
+                localStorage.setItem("pod_name", selectedPodName)
+                var iframe = document.getElementById("productIframe");
+                iframe.src = "http://127.0.0.1:5000/?podName=" + selectedPodName;
+            }, 0); // 2000 milliseconds (2 seconds) delay
+        }
+
+        // Example: Load the iframe with a delay
+        delayedLoadProductIframe();
+
+    </script>
+    </div>
+
+
+
+
+    <style>
+        .resize-drag {
+             color: white;
+            font-size: 20px;
+            font-family: sans-serif;
+            border-radius: 8px;
+
+            width: 100%;
+            height: 100%;
+
+            /* This makes things *much* easier */
+            box-sizing: border-box;
+        }
+
+        .resize-container {
+            width: 100%;
+            height: 240px;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.2.6/interact.min.js"></script>
+    <script>
+        interact('.resize-drag')
+            .draggable({})
+            .resizable({
+                preserveAspectRatio: false,
+                edges: {left: true, right: true, bottom: true, top: true}
+            })
+            .on('resizemove', function (event) {
+                var target = event.target,
+                    x = (parseFloat(target.getAttribute('data-x')) || 0),
+                    y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+                // update the element's style
+                target.style.width = event.rect.width + 'px';
+                target.style.height = event.rect.height + 'px';
+
+                // translate when resizing from top or left edges
+                x += event.deltaRect.left;
+                y += event.deltaRect.top;
+
+                target.style.webkitTransform = target.style.transform =
+                    'translate(' + x + 'px,' + y + 'px)';
+
+                target.setAttribute('data-x', x);
+                target.setAttribute('data-y', y);
+            });
+
+        function dragMoveListener(event) {
+            var target = event.target,
+                // keep the dragged position in the data-x/data-y attributes
+                x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+                y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+            // translate the element
+            target.style.webkitTransform =
+                target.style.transform =
+                    'translate(' + x + 'px, ' + y + 'px)';
+
+            // update the posiion attributes
+            target.setAttribute('data-x', x);
+            target.setAttribute('data-y', y);
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="bg-[#EEF5FF]">
+        <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
+
+        {% if success_message %}
+            <div id="successMessage" class=" justify-center flex">
+                <div class="absolute top-0 bg-white mt-5 p-6 rounded-full border-gray-200 font-mono border-4">
+                    {{ success_message }}
+                </div>
+            </div>
+            <script>
+                // Hide the success message after 2 seconds
+                setTimeout(function () {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 0);
+            </script>
+        {% endif %}
+        <div class="w-screen h-screen flex overflow-hidden  ">
+
+            <!-- Your other HTML content here -->
+
+            <div class="flex-2 min-w-2/3 p-6 ">
+                <div class="flex gap-12 justify-center items-center   flex-col   ">
+                    <div class="" style=" ">
+
+                        <img src="{% static 'ubun.png' %}" alt="Logo" class="h-6"
+                             style="height: 6cm; width: 6cm;opacity: 50%">
+                    </div>
+                    <div class="font-mono text-sm">
+                         <h2 class="mb-2  font-semibold text-gray-900 dark:text-white">Commands to Update and Upgrade Ubuntu:</h2>
+                        <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                            <li><code>sudo apt update</code> - Update the package lists.</li>
+                            <li><code>sudo apt upgrade</code> - Upgrade installed packages to the latest versions.</li>
+                            <li><code>sudo apt dist-upgrade</code> - Upgrade the distribution to the latest available
+                                version.
+                            </li>
+                            <li><code>sudo apt autoremove</code> - Remove unnecessary packages.</li>
+                            <li><code>sudo apt clean</code> - Clean up the local repository of retrieved package files.
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="flex-1">
+                <div id="terminal" style="  position:relative;" class="z-90 h-screen  "
+                     data-selected-pod-name="{{ success_message }}">
+                    <iframe id="productIframe" class="h-screen flex-1 w-full" frameborder="0"
+                            style="border-width: 1px;border-radius: 10px; border-color: #E59E89; box-shadow: 0 0 0 4px #E59E89;"
+
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        // Function to update the iframe source with the dynamic pod name
+        // Function to update the iframe source with the dynamic pod name
+        // Function to load the iframe with a delay
+        function delayedLoadProductIframe() {
+            setTimeout(function () {
+                // Get the value of the 'data-selected-pod-name' attribute
+                var selectedPodName = document.getElementById("terminal").getAttribute("data-selected-pod-name");
+                console.log("alop");
+                console.log(selectedPodName + "rpp");
+               localStorage.setItem("pod_name",selectedPodName)
+                var iframe = document.getElementById("productIframe");
+                iframe.src = "http://127.0.0.1:5000/?podName=" + selectedPodName;
+            }, 0); // 2000 milliseconds (2 seconds) delay
+        }
+
+        // Example: Load the iframe with a delay
+        delayedLoadProductIframe();
+
+    </script>
+{% endblock %}
