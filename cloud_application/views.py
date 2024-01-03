@@ -109,3 +109,6 @@ def package_and_push_chart(request, client_username):
     run(helm_install_command, check=True)
 
     return HttpResponse(f"Helm chart installed for client: {client_username}")
+
+def next_cloud(request):
+    return render(request, 'Services/next_cloud.html')
