@@ -5,12 +5,69 @@
 <head>
     <meta charset="UTF-8">
     <title>Nextcloud</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div>
-    <a href="http://127.0.0.1:8000/next_cloud">
+    <div class="z-10 overflow-hidden " id="confirmnext">
         <img src="{% static 'nextcloud.png' %}" class="mt-4" alt="Logo">
-    </a>
+    </div>
+    <div id="modalnext"
+         class="flex   drop-shadow-lg flex-col gap-3 p-2 justify-center items-center border-2 border-[#0082C9] border-dotted rounded-2xl
+          mx-auto absolute z-99 h-fit w-1/3 bg-gray-50 tracking-tighter	 font-mono hidden">
+        <h2 class="mb-2  font-semibold text-[#0082C9] dark:text-white tracking-wide   [text-shadow:_0_1px_0_rgb(0_0_0_/_20%)]">
+            Welcome to NextCLoud:</h2>
+        <ul class="">
+            <li class="typer-text  [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] !text-sm  space-y-1 !text-gray-400 !list-disc !list-inside dark:text-gray-400"
+                data-delay="20" data-owner="typer-stop" data-loop="false"
+                data-words="Discover the provided service by accessing the terminal in the same location 😉"></li>
+            <li class="typer-text !text-sm [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]  space-y-1 !text-gray-400 !list-disc !list-inside dark:text-gray-400"
+                data-delay="40" data-loop="false" data-words="Try to : apt update && apt upgrade 🪡"></li>
+
+
+        </ul>
+        <div class="flex  w-full justify-between">
+            <span
+                    class="typer-text  !text-sm !font-bold  space-y-1 !text-gray-500 !list-disc !list-inside dark:text-gray-400"
+                    data-delay="50" data-loop="false" data-words="Happy sharing 🧲 !"></span>
+            <button id="boomButton"  type="button" class="p-2 max-w-fit text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium
+        rounded-full text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600
+        dark:focus:ring-gray-700">Boom
+            </button>
+        </div>
+
+    </div>
 </div>
+<script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var confirmnext = document.getElementById('confirmnext');
+        var modalnext = document.getElementById('modalnext');
+        var typerElements = document.querySelectorAll('.typer-text');
+
+        confirmnext.addEventListener('click', function () {
+            modalnext.classList.toggle('hidden');
+
+            // Start the Typer.js animation only after the modal is shown
+            if (!modalnext.classList.contains('hidden')) {
+                typerElements.forEach(function (element) {
+                    var typer = new Typer(element);
+                    typer.start();
+                });
+            }
+        });
+    });
+       // Add event listener to the "Boom" button using the ID
+        boomButton.addEventListener('click', function () {
+            // Redirect to http://127.0.0.1:8000/next_cloud
+            window.location.href = 'http://127.0.0.1:8000/next_cloud';
+        });
+</script>
+
+
 </body>
 </html>
