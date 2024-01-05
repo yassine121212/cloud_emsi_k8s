@@ -30,14 +30,30 @@
 
 
         </ul>
-        <div class="flex  w-full justify-between">
-            <span
-                    class="typer-text  !text-sm !font-bold  space-y-1 !text-gray-500 !list-disc !list-inside dark:text-gray-400"
-                    data-delay="50" data-loop="false" data-words="Happy sharing 🧲 !"></span>
-            <button id="boomButton"  type="button" class="p-2 max-w-fit text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium
-        rounded-full text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600
-        dark:focus:ring-gray-700">Boom
-            </button>
+        <div class="flex flex-col  w-full justify-between">
+            <form id="clientForm" action="{% url 'next_cloud_generate_service_client_values' %}" method="post">
+                {% csrf_token %}
+                <span
+                        class="typer-text  !text-sm !font-bold  space-y-1 !text-gray-500 !list-disc !list-inside dark:text-gray-400"
+                        data-delay="50" data-loop="false" data-words="Happy sharing 🧲 !"></span>
+                <div class="flex   w-full  ">
+                    <div class="flex gap-3 justify-end items-center w-full">
+                        <input type="text"
+                               id="username"
+                               name="service_client_username"
+                               class="bg-white flex-1 h-9 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#16766E] focus:border-[#16766E]   w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                               placeholder="Your Identiy :xxxx" required/>
+
+
+                        <button id="boomButton" type="submit" class="p-2 max-w-fit text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-1 focus:ring-gray-400 font-medium
+                        rounded-full text-sm dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600
+                        dark:focus:ring-[#16766E]">
+                            Boom
+                        </button>
+                    </div>
+                </div>
+            </form>
+
         </div>
 
     </div>
@@ -61,11 +77,11 @@
             }
         });
     });
-       // Add event listener to the "Boom" button using the ID
-        boomButton.addEventListener('click', function () {
-            // Redirect to http://127.0.0.1:8000/next_cloud
-            window.location.href = 'http://127.0.0.1:8000/next_cloud';
-        });
+    // Add event listener to the "Boom" button using the ID
+    boomButton.addEventListener('click', function () {
+        // Redirect to http://127.0.0.1:8000/next_cloud
+        window.location.href = 'http://127.0.0.1:8000/next_cloud';
+    });
 </script>
 
 

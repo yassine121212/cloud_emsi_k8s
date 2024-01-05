@@ -5,20 +5,20 @@
 {% block content %}
 
     <div class=" bg-red-500 h-screen w-screen relative">
-        <div class="min-h-screen bg-green-300 ">
-            d
+        <div class="min-h-screen  ">
+            <iframe src="http://{{ ip_address }}/" id="web_next" class="h-screen w-screen"></iframe>
         </div>
         <div class="resize-container absolute   bottom-0  ">
             <div class="resize-drag relative" id="terminal" data-selected-pod-name="{{ success_message }}">
                 <div id="draagg" class="  relative cursor-s-resize">
                     <div class="h-4   text-center justify-center   top-0 w-full bg-gray-200 rounded-tl-3xl rounded-tr-3xl flex text-gray-400">
                         <div class="rotate-90 block text-3xl">|</div>
-                     </div>
+                    </div>
 
                 </div>
 
                 <div>
-                    <iframe id="productIframe" frameborder="0" class="w-screen h-screen"
+                    <iframe id="productIframe" frameborder="0" class="w-screen h-full"
                             style="border-width: 1px;border-radius: 10px; border-color: #E59E89; box-shadow: 0 0 0 4px #E59E89;"
 
                     ></iframe>
@@ -27,7 +27,26 @@
 
         </div>
     </div>
+
+<script>
+    var iframe = document.getElementById('web_next');
+    var maxReloads = 3;
+    var reloadCount = 0;
+    var reloadInterval = 1000; // Adjust the interval between reloads in milliseconds (e.g., 5000 = 5 seconds)
+
+    function reloadIframe() {
+        if (reloadCount < maxReloads) {
+            reloadCount++;
+            iframe.src = iframe.src; // Reload the iframe by setting its src attribute
+        }
+    }
+
+    // Call the reloadIframe function after a delay (adjust as needed)
+    setTimeout(reloadIframe, reloadInterval);
+</script>
+
     <script>
+        alert({{ ip_address }})
         // Function to update the iframe source with the dynamic pod name
         // Function to update the iframe source with the dynamic pod name
         // Function to load the iframe with a delay
@@ -54,7 +73,7 @@
 
     <style>
         .resize-drag {
-             color: white;
+            color: white;
             font-size: 20px;
             font-family: sans-serif;
             border-radius: 8px;

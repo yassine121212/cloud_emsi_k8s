@@ -1,18 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'index.html' %}
+{% load static %}
 
-<head>
-    <meta charset="utf-8"/>
-    <title>pyxterm.js</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <style>
-        html {
-            font-family: arial;
-        }
-    </style>
-    <link rel="stylesheet" href="https://unpkg.com/xterm@4.11.0/css/xterm.css"/>
-</head>
+{% block content %}
+    <div class="bg-[#EEF5FF]">
+        <script async src="https://unpkg.com/typer-dot-js@0.1.0/typer.js"></script>
 
         {% if success_message %}
             <div id="successMessage" class=" justify-center flex z-99">

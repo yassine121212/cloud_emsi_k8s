@@ -144,25 +144,128 @@ def ubuntu_instance(request):
 
     return render(request, 'Services/ubuntu_instance.html', context)
 
-def package_and_push_chart(request, client_username):
-    # Get the username from the URL parameter or request data
-    client_username = request.GET.get('client_username')  # Adjust if needed
 
-    # Check if the generated client-values.yaml file exists
-    file_path = f'/home/yasseldev/Downloads/client-{client_username}-values.yaml'
-    if not os.path.exists(file_path):
-        return HttpResponse("Client values file not found.", status=404)
+# def package_and_push_chart(request, client_username):
+#     # Get the username from the URL parameter or request data
+#     client_username = request.GET.get('client_username')  # Adjust if needed
+#
+#     # Check if the generated client-values.yaml file exists
+#     file_path = f'/home/yasseldev/Downloads/client-{client_username}-values.yaml'
+#     if not os.path.exists(file_path):
+#         return HttpResponse("Client values file not found.", status=404)
+#
+#     # Run helm install with the dynamically generated client-values.yaml
+#     chart_name = '/home/yasseldev/emsi_chart_ubuntu'
+#     helm_install_command = [
+#         'helm', 'install', client_username, f'{chart_name}', '--values', file_path
+#     ]
+#
+#     run(helm_install_command, check=True)
+#
+#     return HttpResponse(f"Helm chart installed for client: {client_username}")
 
-    # Run helm install with the dynamically generated client-values.yaml
-    chart_name = '/home/yasseldev/emsi_chart_ubuntu'
-    helm_install_command = [
-        'helm', 'install', client_username, f'{chart_name}', '--values', file_path
-    ]
 
-    run(helm_install_command, check=True)
+def next_cloud_generate_service_client_values(request):
+    try:
+        # Get client-specific input (username, password) from the form
+        service_client_username = request.POST.get('service_client_username')
 
-    return HttpResponse(f"Helm chart installed for client: {client_username}")
+        # Load a template for service-client-values.yaml
+        template = loader.get_template('service_values_template.yaml')
+
+        # Render the template with service-client-specific values
+        service_client_values_content = template.render({
+            'client_username': service_client_username,
+        })
+
+        filename = f'service-client-{service_client_username}-values.yaml'
+        print("zoz : ", filename)
+
+        # Save the generated content to a file in /home/yasseldev/Downloads
+        file_path = os.path.join('/home/yasseldev/Downloads', filename)
+        try:
+            with open(file_path, 'w') as file:
+                file.write(service_client_values_content)
+        except Exception as file_error:
+            return JsonResponse({"error": f"Error creating file: {str(file_error)}"}, status=500)
+
+        if not os.path.exists(file_path):
+            return JsonResponse({"error": "service client values file not found."}, status=404)
+
+        try:
+            # Run helm install with the dynamically generated service-client-values.yaml
+            chart_name = '/home/yasseldev/emsi_chat_nextcloud'
+            helm_install_command = [
+                'helm', 'install', service_client_username, f'{chart_name}', '--values', file_path
+            ]
+            subprocess.run(helm_install_command, check=True)
+        except Exception as helm_error:
+            return JsonResponse({"error": f"Helm installation failed: {str(helm_error)}"}, status=500)
+
+        # Load Kubernetes configuration from the default kubeconfig file
+        config.load_kube_config()
+
+        # Create an instance of the Kubernetes API client
+        api_instance = client.CoreV1Api()
+
+        # Specify the label selector to filter pods by app=service_client_username
+        label_selector = 'app=next_cloud_app'
+        print("Label Selector:", label_selector)
+
+        # Retrieve the list of pods
+        pods_list = api_instance.list_pod_for_all_namespaces(label_selector=label_selector)
+
+        print("Pods List:", pods_list)
+        with open(file_path, 'r') as file:
+            file_content = file.read()
+            print(f"Content of {filename}:\n{file_content}")
+
+        # Extract pod names from the list
+        pod_names = [pod.metadata.name for pod in pods_list.items]
+        print("Pod Names:", pod_names)
+
+        # Select one pod name (you can customize this logic)
+        selected_pod_name = next((pod_name for pod_name in pod_names if pod_name.startswith(service_client_username)),
+                                 None)
+
+        service_name = selected_pod_name
+        time.sleep(4)
+        result = service_name.split("-")[0] + "-service"
+        print(result)
+
+        install_command = ["kubectl",
+                           "get",
+                           "svc",
+                           result,
+                           "-o=jsonpath='{.status.loadBalancer.ingress[0].ip}'"
+                           ]
+        time.sleep(2)
+
+        try:
+            result = subprocess.run(install_command, check=True, capture_output=True, text=True)
+            output = result.stdout.strip()
+            print(f"The IP address is: {output}")
+        except subprocess.CalledProcessError as e:
+            print(f"Error executing the command: {e}")
+
+        success_message = selected_pod_name
+        return redirect(reverse('next_cloud') + f'?success_message={success_message}&ip_address={output}')
+
+    except Exception as e:
+        # Handle other exceptions
+        error_message = f"An unexpected error occurred: {str(e)}"
+        return JsonResponse({"error": error_message}, status=500)
 
 
 def next_cloud(request):
-    return render(request, 'Services/next_cloud.html')
+    success_message = request.GET.get('success_message')
+    ip_address = request.GET.get('ip_address').strip("\'")
+    print("zeeee")
+    print(ip_address)
+
+    context = {
+        'success_message': success_message,
+        'ip_address': ip_address,
+    }
+
+    return render(request, 'Services/next_cloud.html', context)
